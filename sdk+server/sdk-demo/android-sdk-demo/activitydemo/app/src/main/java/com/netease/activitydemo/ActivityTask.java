@@ -19,15 +19,21 @@ import java.util.Map;
 
 public class ActivityTask extends AsyncTask<String, Void, String> {
     private Context mContext;
-
+    public static String TAG= "Activity-getToken";
     public ActivityTask(Context context) {
         this.mContext = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
+        String token = watchman.getToken( "your BusinessId",new RequestCallback(){
+            @Override
+            public void onResult(int code, String msg) {
+                Log.e(TAG,"Register, code = " + code + " msg = " + msg);
+            }
+        });
         Map<String, String> params = new HashMap<String, String>();
-        params.put("token", watchman.getToken("your BusinessId"));
+        params.put("token", token);
         return PostData(params);
     }
 
